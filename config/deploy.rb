@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.8.0"
+lock '3.8.0'
 
 set :repo_url, 'git@github.com:PavelBezpalov/alexa-fop.git'
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

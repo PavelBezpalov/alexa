@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
-
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
@@ -46,6 +45,12 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
+
+  # spec autorunner
+  gem 'guard-rspec', require: false
+
+  # code style checker
+  gem 'rubocop', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

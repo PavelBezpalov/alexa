@@ -8,20 +8,18 @@ class AlexaController < ApplicationController
     response = AlexaRubykit::Response.new
 
     if @alexa_request.type == 'INTENT_REQUEST'
-      logger.info "#{@alexa_request.slots}"
-      logger.info "#{@alexa_request.name}"
+      logger.info @alexa_request.slots.to_s
+      logger.info @alexa_request.name.to_s
 
-      eval(@alexa_request.name).new(user: @current_user, request: @alexa_request)
+      @alexa_request.name.constantenize.new(user: @current_user, request: @alexa_request)
     end
 
-    if @alexa_request.type == 'LAUNCH_REQUEST'
-      response.add_speech('FOP ready!')
-    end
+    response.add_speech('FOP ready!') if @alexa_request.type == 'LAUNCH_REQUEST'
 
     if @alexa_request.type == 'SESSION_ENDED_REQUEST'
-      logger.info "#{@alexa_request.type}"
-      logger.info "#{@alexa_request.reason}"
-      head 200 and return
+      logger.info @alexa_request.type.to_s
+      logger.info @alexa_request.reason.to_s
+      head(200) && return
     end
 
     render json: response.build_response, status: :ok
@@ -33,14 +31,12 @@ class AlexaController < ApplicationController
     request_json = JSON.parse(request.raw_post)
     @alexa_request = AlexaRubykit.build_request(request_json)
     @alexa_session = @alexa_request.session
-    raise StandardError.new('session without user') unless @alexa_session.user_defined?
+    raise StandardError, 'session without user' unless @alexa_session.user_defined?
   rescue => error
     render json: { errors: error.message }, status: :bad_request
   end
 
-  def current_user
-    @current_user
-  end
+  attr_reader :current_user
 
   def authorize_user
     @current_user = User.find_or_create_by!(amazon_id: @alexa_session.user_id)

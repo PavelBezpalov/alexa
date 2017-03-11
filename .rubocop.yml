@@ -1,0 +1,20 @@
+Rails:
+  Enabled: true
+
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+    - 'bin/*'
+Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/AbcSize:
+  Max: 50
+
+Metrics/MethodLength:
+  Max: 50
