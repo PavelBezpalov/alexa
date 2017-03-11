@@ -1,4 +1,6 @@
 class AlexaController < ApplicationController
+  include Intents
+
   before_action :understand_alexa
   before_action :authorize_user
 
@@ -8,16 +10,8 @@ class AlexaController < ApplicationController
     if @alexa_request.type == 'INTENT_REQUEST'
       logger.info "#{@alexa_request.slots}"
       logger.info "#{@alexa_request.name}"
-      if @alexa_request.name == 'AddIncome'
-        transaction_date = Date.parse(@alexa_request.slots['Date']['value'] || Date.today.to_s)
-        transaction = Transaction.new(amount: @alexa_request.slots['Amount']['value'], transaction_date: transaction_date)
-        if transaction.save
-          response.add_speech("#{transaction.amount} hrivnas have been added for #{transaction.transaction_date}.")
-        else
-          response.add_speech("Error adding record. Please repeat.")
-        end
-      # elsif @alexa_request.name == ...
-      end
+
+      eval(@alexa_request.name).new(user: @current_user, request: @alexa_request)
     end
 
     if @alexa_request.type == 'LAUNCH_REQUEST'
