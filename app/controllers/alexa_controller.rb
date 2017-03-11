@@ -11,7 +11,7 @@ class AlexaController < ApplicationController
       logger.info "#{@alexa_request.slots}"
       logger.info "#{@alexa_request.name}"
 
-      eval(@alexa_request.name).new(user: @current_user, request: @alexa_request)
+      eval(@alexa_request.name).new(@current_user, @alexa_request)
     end
 
     if @alexa_request.type == 'LAUNCH_REQUEST'
