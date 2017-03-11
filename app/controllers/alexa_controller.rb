@@ -8,8 +8,9 @@ class AlexaController < ApplicationController
     p session.has_attributes?
     p session.session_id
     p session.user_defined?
+    Transaction.create(amount: session.amount)
     response = AlexaRubykit::Response.new
-    response.add_speech('Hello everlabs!')
+    response.add_speech("Hello Everlabs! Your total income is #{Transaction.sum(&:amount).to_i} hrivnas!")
     response.add_hash_card( { title: 'Everlabs Ready', subtitle: 'Working hard!' })
     render json: response.build_response
   end
