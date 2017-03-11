@@ -10,7 +10,7 @@ class AlexaController < ApplicationController
     logger.info @alexa_request.slots.to_s
     logger.info @alexa_request.name.to_s
 
-    intent_handler = @alexa_request.name.constantenize.new(current_user, @alexa_request)
+    intent_handler = @alexa_request.name.constantize.new(current_user, @alexa_request)
     render json: intent_handler.alexa_response, status: :ok
   end
 
