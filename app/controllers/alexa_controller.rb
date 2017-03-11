@@ -14,8 +14,13 @@ class AlexaController < ApplicationController
     if alexa_request.type == 'INTENT_REQUEST'
       logger.info "#{alexa_request.slots}"
       logger.info "#{alexa_request.name}"
-      Transaction.create(amount: alexa_request.slots['Amount']['value']) if alexa_request.slots.key?('Amount')
-      response.add_speech("Your total income is #{Transaction.sum(:amount).to_i} hrivnas!")
+      transaction_date = Date.parse(alexa_request.slots['Date']['value']) || Date.today
+      transaction = Transaction.new(amount: alexa_request.slots['Amount']['value'], transaction_date: transaction_date)
+      if transaction.save
+        response.add_speech("#{transaction.amount} hrivnas added for #{transaction.transaction_date}.")
+      else
+        response.add_speech("Error adding record. Please repeat.")
+      end
     end
 
     if alexa_request.type == 'LAUNCH_REQUEST'
