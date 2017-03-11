@@ -9,11 +9,12 @@ class AlexaController < ApplicationController
     logger.info session.session_id
     logger.info session.user_defined?
 
+    response = AlexaRubykit::Response.new
+
     if (alexa_request.type == 'INTENT_REQUEST')
       logger.info "#{request.slots}"
       logger.info "#{request.name}"
       Transaction.create(amount: alexa_request.slots['Amount']['value']) if alexa_request.slots.key?('Amount')
-      response = AlexaRubykit::Response.new
       response.add_speech("Your total income is #{Transaction.sum(:amount).to_i} hrivnas!")
     end
 
