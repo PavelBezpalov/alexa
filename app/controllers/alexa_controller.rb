@@ -11,20 +11,20 @@ class AlexaController < ApplicationController
 
     response = AlexaRubykit::Response.new
 
-    if (alexa_request.type == 'INTENT_REQUEST')
-      logger.info "#{request.slots}"
-      logger.info "#{request.name}"
+    if alexa_request.type == 'INTENT_REQUEST'
+      logger.info "#{alexa_request.slots}"
+      logger.info "#{alexa_request.name}"
       Transaction.create(amount: alexa_request.slots['Amount']['value']) if alexa_request.slots.key?('Amount')
       response.add_speech("Your total income is #{Transaction.sum(:amount).to_i} hrivnas!")
     end
 
-    if (alexa_request.type == 'LAUNCH_REQUEST')
-      response.add_speech('FOP reeeeeeaaaaaaaaaady!')
+    if alexa_request.type == 'LAUNCH_REQUEST'
+      response.add_speech('FOP ready!')
     end
 
-    if (alexa_request.type =='SESSION_ENDED_REQUEST')
-      logger.info "#{request.type}"
-      logger.info "#{request.reason}"
+    if alexa_request.type == 'SESSION_ENDED_REQUEST'
+      logger.info "#{alexa_request.type}"
+      logger.info "#{alexa_request.reason}"
       head 200 and return
     end
 
