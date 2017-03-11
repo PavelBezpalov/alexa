@@ -40,6 +40,9 @@ GEM
       tzinfo (~> 1.1)
     airbrussh (1.1.2)
       sshkit (>= 1.6.1, != 1.7.0)
+    alexa_rubykit (1.2.0)
+      bundler (~> 1.7)
+      rake
     arel (7.1.4)
     builder (3.2.3)
     byebug (9.0.6)
@@ -150,6 +153,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  alexa_rubykit
   byebug
   capistrano (~> 3.8)
   capistrano-nginx
@@ -167,4 +171,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.14.4
+   1.14.6
