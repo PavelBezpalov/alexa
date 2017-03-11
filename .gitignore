@@ -52,3 +52,5 @@ tmp/cache/
 vendor/
 /config/database.production.yml
 /config/secrets.production.yml
+
+db/schema.rb
