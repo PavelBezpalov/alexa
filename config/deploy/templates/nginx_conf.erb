@@ -17,7 +17,7 @@ server {
   listen 443 ssl;
   ssl_certificate /etc/letsencrypt/live/<%= fetch(:nginx_server_name) %>/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/<%= fetch(:nginx_server_name) %>/privkey.pem;
-  rewrite ^(.*) https://<%= fetch(:nginx_server_name) %>$1 permanent;st$1 permanent;
+  rewrite ^(.*) https://<%= fetch(:nginx_server_name) %>$1 permanent;
 }
 <% end %>
 
