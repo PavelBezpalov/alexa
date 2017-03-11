@@ -1,6 +1,4 @@
 class AlexaController < ApplicationController
-  include Intents
-
   before_action :understand_alexa
   before_action :authorize_user
   before_action :check_launch_request
@@ -9,8 +7,8 @@ class AlexaController < ApplicationController
   def listener
     logger.info @alexa_request.slots.to_s
     logger.info @alexa_request.name.to_s
-
-    intent_handler = @alexa_request.name.constantize.new(current_user, @alexa_request)
+    intent_handler = "Intents::#{@alexa_request.name}".constantize.new(current_user, @alexa_request)
+    intent_handler.call
     render json: intent_handler.alexa_response, status: :ok
   end
 
