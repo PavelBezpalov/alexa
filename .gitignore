@@ -50,3 +50,5 @@ bower.json
 log/development.log
 tmp/cache/
 vendor/
+/config/database.production.yml
+/config/secrets.production.yml
