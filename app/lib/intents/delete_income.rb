@@ -25,9 +25,9 @@ module Intents
         requested_transactions.last.destroy
         if requested_transactions.count > 1
           response.add_speech("One record from #{requested_transactions.count} for
-                              #{amount} hrivnas has been deleted for #{transaction_date}.")
+                              #{transaction_amount} hrivnas has been deleted for #{transaction_date}.")
         else
-          response.add_speech("#{amount} hrivnas has been deleted for #{transaction_date}.")
+          response.add_speech("#{transaction_amount} hrivnas has been deleted for #{transaction_date}.")
         end
       else
         response.add_speech("I can't find records for #{transaction_amount.to_i} hrivnas for #{transaction_date}.")
