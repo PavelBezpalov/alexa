@@ -19,7 +19,9 @@ module Intents
 
     def process_request
       transaction_date = Date.parse(request.slots['Date']['value'] || Time.zone.today.to_s)
-      transaction = Transaction.new(amount: request.slots['Amount']['value'], transaction_date: transaction_date)
+      transaction = Transaction.new(amount: request.slots['Amount']['value'], transaction_date: transaction_date,
+                                    user: user)
+
       if transaction.save
         response.add_speech("#{transaction.amount.to_i} hrivnas have been added for #{transaction.transaction_date}.")
       else

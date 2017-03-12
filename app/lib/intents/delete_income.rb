@@ -18,6 +18,20 @@ module Intents
     end
 
     def process_request
+      transaction_date = Date.parse(request.slots['Date']['value'] || Time.zone.today.to_s)
+      transaction_amount = request.slots['Amount']['value'].to_i
+      requested_transactions = user.transactions.where(amount: transaction_amount, transaction_date: transaction_date)
+      if requested_transactions.any?
+        requested_transactions.last.destroy
+        if requested_transactions.count > 1
+          response.add_speech("One record from #{requested_transactions.count} for
+                              #{amount} hrivnas has been deleted for #{transaction_date}.")
+        else
+          response.add_speech("#{amount} hrivnas has been deleted for #{transaction_date}.")
+        end
+      else
+        response.add_speech("I can't find records for #{transaction_amount.to_i} hrivnas for #{transaction_date}.")
+      end
     end
   end
 end
