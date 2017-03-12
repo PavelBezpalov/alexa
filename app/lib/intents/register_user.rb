@@ -35,7 +35,7 @@ module Intents
     end
 
     def init_register_dialog
-      response.add_speech'Looks like you are not in our DB. Please, specify your name:')
+      response.add_speech('Looks like you are not in our DB. Please, specify your name:')
       response.add_hash_card(title: 'Please, specify your name:',
                              subtitle: 'Tip: my name is ...')
     end
