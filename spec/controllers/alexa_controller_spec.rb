@@ -78,6 +78,10 @@ RSpec.describe AlexaController, type: :controller do
           def render_end_session
             head :accepted
           end
+
+          def register_user
+            head :no_content
+          end
         end
 
         before do
@@ -85,20 +89,33 @@ RSpec.describe AlexaController, type: :controller do
         end
 
         it 'respond from listener on IntentRequest' do
+          User.create(amazon_id: valid_intent_request[:session][:user][:userId], tax_group: 3)
           post :listener, params: valid_intent_request, format: :json
           expect(response).to have_http_status(:ok)
         end
 
         it 'respond from render_launch_request on LaunchRequest' do
-          valid_intent_request[:request][:type] = 'LaunchRequest'
-          post :listener, params: valid_intent_request, format: :json
+          User.create(amazon_id: valid_launch_request[:session][:user][:userId], tax_group: 3)
+          post :listener, params: valid_launch_request, format: :json
           expect(response).to have_http_status(:created)
         end
 
         it 'respond from render_end_session on SessionEndedRequest' do
-          valid_intent_request[:request][:type] = 'SessionEndedRequest'
-          post :listener, params: valid_intent_request, format: :json
+          valid_end_session_request[:request][:type] = 'SessionEndedRequest'
+          post :listener, params: valid_end_session_request, format: :json
           expect(response).to have_http_status(:accepted)
+        end
+
+        context 'respond from register_user when user without name and tax' do
+          it 'on IntentRequest' do
+            post :listener, params: valid_intent_request, format: :json
+            expect(response).to have_http_status(:no_content)
+          end
+
+          it 'on LaunchRequest' do
+            post :listener, params: valid_launch_request, format: :json
+            expect(response).to have_http_status(:no_content)
+          end
         end
       end
     end
