@@ -27,17 +27,17 @@ module Intents
           response.add_speech("You don't have income in #{request.slots['Date']['value']}.")
         end
       else
-        response.add_speech("Please specify report period.")
+        response.add_speech('Please specify report period.')
       end
     end
 
     def define_period(date)
       # hardcode default month to have it in the past :) update for production
       # 2016
-      if /^(?<num>\d+)$/ =~ date
+      if /^\d+$/ =~ date
         start_date = Date.parse("01-01-#{date}")
         end_date = Date.parse("31-12-#{date}")
-      elsif /^(?<num>\d+)$/ =~ date.gsub('-','') && date.split('-').size == 2
+      elsif /^\d+$/ =~ date.delete('-') && date.split('-').size == 2
         # 2018-02 || 2017-02
         if date.split('-')[0].to_i > Date.current.year
           date.gsub!('2018', '2017')
@@ -49,7 +49,7 @@ module Intents
       elsif date.include? 'Q'
         # 2018-Q1
         quarter = date.split('-Q')[1].to_i
-        year = date.split('-Q')[0].gsub('2018','2017')
+        year = date.split('-Q')[0].gsub('2018', '2017')
         month = if quarter == 1
                   1
                 elsif quarter == 2
@@ -61,15 +61,15 @@ module Intents
                 else
                   1
                 end
-        start_date = Date.parse("01-#{month.to_s}-#{year}")
-        end_date = Date.parse("01-#{(month+2)}-#{year}").end_of_month
+        start_date = Date.parse("01-#{month}-#{year}")
+        end_date = Date.parse("01-#{(month + 2)}-#{year}").end_of_month
       elsif date.include? 'W'
         # 2017-W10
         week = date.split('-W')[1].to_i
         year = date.split('-W')[0].to_i
         start_date = Date.commercial(year, week, 1)
         end_date = Date.commercial(year, week, 7)
-      elsif /^(?<num>\d+)$/ =~ date.gsub('-','') && date.split('-').size == 3
+      elsif /^\d+$/ =~ date.delete('-') && date.split('-').size == 3
         # 2017-03-11
         start_date = Date.parse(date)
         end_date = Date.parse(date)
@@ -79,8 +79,7 @@ module Intents
         end_date = nil
       end
 
-      return {start_date: start_date, end_date: end_date}
+      { start_date: start_date, end_date: end_date }
     end
-
   end
 end
