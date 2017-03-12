@@ -31,7 +31,7 @@ module Intents
     end
 
     def should_init_dialog?
-      request.type == 'LAUNCH_REQUEST' || (session.attributes[:name].nil? && request.:name != 'RegisterUser')
+      request.type == 'LAUNCH_REQUEST' || (session.attributes[:name].nil? && request.name != 'RegisterUser')
     end
 
     def init_register_dialog
