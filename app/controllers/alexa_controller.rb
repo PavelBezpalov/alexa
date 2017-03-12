@@ -1,8 +1,8 @@
 class AlexaController < ApplicationController
   before_action :understand_alexa
   before_action :authorize_user
-  before_action :check_launch_request
-  before_action :check_end_session
+  before_action :render_launch_request, if: proc { @alexa_request.type == 'LAUNCH_REQUEST' }
+  before_action :render_end_session, if: proc { @alexa_request.type == 'SESSION_ENDED_REQUEST' }
 
   def listener
     logger.info @alexa_request.slots.to_s
@@ -28,25 +28,15 @@ class AlexaController < ApplicationController
     @current_user = User.find_or_create_by!(amazon_id: @alexa_session.user_id)
   end
 
-  def check_intent_type
-    unless %w(LAUNCH_REQUEST SESSION_ENDED_REQUEST INTENT_REQUEST).include? @alexa_request.type
-      render json: { errors: 'unknown intent type' }, status: :bad_request
-    end
+  def render_launch_request
+    response = AlexaRubykit::Response.new
+    response.add_speech('FOP ready!')
+    render json: response.build_response, status: :ok
   end
 
-  def check_launch_request
-    if @alexa_request.type == 'LAUNCH_REQUEST'
-      response = AlexaRubykit::Response.new
-      response.add_speech('FOP ready!')
-      render json: response.build_response, status: :ok
-    end
-  end
-
-  def check_end_session
-    if @alexa_request.type == 'SESSION_ENDED_REQUEST'
-      logger.info @alexa_request.type.to_s
-      logger.info @alexa_request.reason.to_s
-      head :ok
-    end
+  def render_end_session
+    logger.info @alexa_request.type.to_s
+    logger.info @alexa_request.reason.to_s
+    render json: {}, status: :ok
   end
 end
