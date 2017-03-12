@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Event.destroy_all
 events = Event.create([
   { name: 'Social tax, 2112 hrivnas', start_date: Date.parse('01.04.2017'), end_date: Date.parse('19.04.2017'), tax_group: 2 },
   { name: 'Social tax, 2112 hrivnas', start_date: Date.parse('01.07.2017'), end_date: Date.parse('19.07.2017'), tax_group: 2 },
