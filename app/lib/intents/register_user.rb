@@ -41,7 +41,7 @@ module Intents
     end
 
     def should_ask_group?
-      session.attributes[:group].nil? && request.slots['Name']['value'].present?
+      session.attributes[:group].nil? && request.name == 'RegisterUser' && request.slots['Name']['value'].present?
     end
 
     def store_name_and_ask_group
@@ -52,7 +52,7 @@ module Intents
     end
 
     def should_update_user?
-      request.slots['Group']['value'].present?
+      request.name == 'RegisterUser' && request.slots['Group']['value'].present?
     end
 
     def update_user
