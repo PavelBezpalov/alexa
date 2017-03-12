@@ -1,0 +1,33 @@
+{
+  "session": {
+    "sessionId": "SessionId.6cfaeaaf-3954-4728-91d3-fec968cbcdf2",
+    "application": {
+      "applicationId": "amzn1.ask.skill.e1b3e23a-8c67-4de3-a3fc-c96ce7daca98"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AHOIJFLVEBPVY6FJWZOGFI5IFAUIQBY4VH756MHBNM2NNQWX4D2T6JJ2HFEEAJ27DZVKHSBZMJKXOOFIJTQBALM6LOXGY3ZIE6LCSJAC52FWJRE4SEV2RIXMYOY3TWBFWVUTSW2B5DV3647HHSHQORH4OI7OXOGBXWFCMU5LY52WHZ3LTD3BETH4EGW7674YDCT2H6R5NIKCZII"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.c71b216a-35f2-4329-bd6a-fddb358eb1ad",
+    "locale": "en-US",
+    "timestamp": "2017-03-12T00:03:21Z",
+    "intent": {
+      "name": "AddIncome",
+      "slots": {
+        "Amount": {
+          "name": "Amount",
+          "value": "10"
+        },
+        "Date": {
+          "name": "Date",
+          "value": "2017-03-11"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

@@ -15,8 +15,7 @@ class AlexaController < ApplicationController
   private
 
   def understand_alexa
-    request_json = JSON.parse(request.raw_post)
-    @alexa_request = AlexaRubykit.build_request(request_json)
+    @alexa_request = AlexaRubykit.build_request(params)
     @alexa_session = @alexa_request.session
     raise StandardError, 'session without user' unless @alexa_session.user_defined?
   rescue => error
