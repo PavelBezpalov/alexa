@@ -22,7 +22,7 @@ module Intents
       end_period = current_quarter_months(Date.current)[2]
       to_pay = Transaction.where('transaction_date > ? AND transaction_date < ?', Date.parse("01-#{start_period.to_s}-#{Date.current.year.to_s}"),
                         Date.parse("01-#{end_period.to_s}-#{Date.current.year.to_s}").end_of_month).sum(:amount)*0.05
-      response.add_speech("You have to pay #{to_pay} from your current income.")
+      response.add_speech("You have to pay #{to_pay} hrivnas from your current income.")
     end
 
     def current_quarter_months(date)
