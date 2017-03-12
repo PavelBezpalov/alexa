@@ -24,14 +24,13 @@ module Intents
           # TODO: extend it
           next_report = Event.order(:end_date).where('end_date > ?', Date.current).first
           # TODO: do not list done
-          response.add_speech("Your next deadline is #{next_report.name} on #{next_report.end_date.to_s}")
+          response.add_speech("Your next deadline is #{next_report.name} on #{next_report.end_date}")
         else
-          response.add_speech("Your have next #{active_events.count.to_s} upcoming events: #{active_events.map {|event| event.name + ' on ' + event.end_date.to_s}.join(', ')}")
+          response.add_speech("Your have next #{active_events.count} upcoming events: #{active_events.map { |event| event.name + ' on ' + event.end_date.to_s }.join(', ')}")
         end
       else
         response.add_speech("You don't have any upcoming reports or taxes.")
       end
     end
-
   end
 end
