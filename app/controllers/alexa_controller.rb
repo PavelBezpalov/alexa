@@ -1,9 +1,9 @@
 class AlexaController < ApplicationController
   before_action :understand_alexa
   before_action :authorize_user
-  before_action :render_launch_request, if: proc { @alexa_request.type == 'LAUNCH_REQUEST' }
   before_action :render_end_session, if: proc { @alexa_request.type == 'SESSION_ENDED_REQUEST' }
   before_action :register_user, if: proc { current_user.new? }
+  before_action :render_launch_request, if: proc { @alexa_request.type == 'LAUNCH_REQUEST' }
 
   def listener
     logger.info @alexa_request.slots.to_s
