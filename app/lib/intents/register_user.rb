@@ -35,7 +35,7 @@ module Intents
     end
 
     def init_register_dialog
-      response.add_reprompt('Looks like you are not in our DB. Please, specify your name:')
+      response.add_speech'Looks like you are not in our DB. Please, specify your name:')
       response.add_hash_card(title: 'Please, specify your name:',
                              subtitle: 'Tip: my name is ...')
     end
@@ -46,7 +46,7 @@ module Intents
 
     def store_name_and_ask_group
       response.add_session_attribute(:name, request.slots['Name']['value'])
-      response.add_reprompt('What is your tax group:')
+      response.add_speech('What is your tax group:')
       response.add_hash_card(title: 'Please, specify your tax group:',
                              subtitle: 'Tip: i am on second|third group')
     end
