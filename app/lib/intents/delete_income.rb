@@ -23,8 +23,8 @@ module Intents
       requested_transactions = user.transactions.where(amount: transaction_amount, transaction_date: transaction_date)
       if requested_transactions.any?
         requested_transactions.last.destroy
-        if requested_transactions.count > 1
-          response.add_speech("One record from #{requested_transactions.count} for
+        if requested_transactions.any?
+          response.add_speech("One record from #{requested_transactions.count + 1} for
                               #{transaction_amount} hrivnas has been deleted for #{transaction_date}.")
         else
           response.add_speech("#{transaction_amount} hrivnas has been deleted for #{transaction_date}.")
