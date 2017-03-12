@@ -3,6 +3,7 @@ class AlexaController < ApplicationController
   before_action :authorize_user
   before_action :render_launch_request, if: proc { @alexa_request.type == 'LAUNCH_REQUEST' }
   before_action :render_end_session, if: proc { @alexa_request.type == 'SESSION_ENDED_REQUEST' }
+  before_action :register_user, if: proc { current_user.new? }
 
   def listener
     logger.info @alexa_request.slots.to_s
@@ -38,5 +39,11 @@ class AlexaController < ApplicationController
     logger.info @alexa_request.type.to_s
     logger.info @alexa_request.reason.to_s
     render json: {}, status: :ok
+  end
+
+  def register_user
+    intent_handler = Intents::RegisterUser.new(current_user, @alexa_request)
+    intent_handler.call
+    render json: intent_handler.alexa_response, status: :ok
   end
 end
